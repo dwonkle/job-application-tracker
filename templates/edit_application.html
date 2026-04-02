@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Edit Application</h1>
+
+<form method="POST" action="/applications/edit/{{ application.application_id }}">
+    <div class="mb-3">
+        <label for="job_id" class="form-label">Job *</label>
+        <select class="form-select" id="job_id" name="job_id" required>
+            <option value="">Select a job</option>
+            {% for job in jobs %}
+            <option value="{{ job.job_id }}"
+                    {% if job.job_id == application.job_id %}selected{% endif %}>
+                {{ job.job_title }} at {{ job.company_name or 'Unknown' }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="application_date" class="form-label">Application Date *</label>
+        <input type="date" class="form-control" id="application_date" name="application_date"
+               value="{{ application.application_date }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+            <option value="Applied" {% if application.status == 'Applied' %}selected{% endif %}>Applied</option>
+            <option value="Screening" {% if application.status == 'Screening' %}selected{% endif %}>Screening</option>
+            <option value="Interview" {% if application.status == 'Interview' %}selected{% endif %}>Interview</option>
+            <option value="Offer" {% if application.status == 'Offer' %}selected{% endif %}>Offer</option>
+            <option value="Rejected" {% if application.status == 'Rejected' %}selected{% endif %}>Rejected</option>
+            <option value="Withdrawn" {% if application.status == 'Withdrawn' %}selected{% endif %}>Withdrawn</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="resume_version" class="form-label">Resume Version</label>
+        <input type="text" class="form-control" id="resume_version" name="resume_version"
+               value="{{ application.resume_version or '' }}">
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="cover_letter_sent" name="cover_letter_sent"
+               value="1" {% if application.cover_letter_sent %}checked{% endif %}>
+        <label class="form-check-label" for="cover_letter_sent">Cover Letter Sent</label>
+    </div>
+    <div class="mb-3">
+        <label for="interview_data" class="form-label">Interview Notes</label>
+        <textarea class="form-control" id="interview_data" name="interview_data"
+                  rows="3">{{ application.interview_data or '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/applications" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

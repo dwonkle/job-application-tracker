@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Job Match</h1>
+
+<div class="card mb-4">
+    <div class="card-body">
+        <h5 class="card-title">Enter Your Skills</h5>
+        <form method="POST" action="/job_match">
+            <div class="mb-3">
+                <label for="skills" class="form-label">Your Skills (comma-separated)</label>
+                <input type="text" class="form-control" id="skills" name="skills"
+                       placeholder="e.g. Python, SQL, Flask, JavaScript"
+                       value="{{ user_skills }}" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Find Matching Jobs</button>
+        </form>
+    </div>
+</div>
+
+{% if results %}
+<h3 class="mb-3">Matching Jobs</h3>
+{% for result in results %}
+<div class="card mb-3">
+    <div class="card-body">
+        <div class="d-flex justify-content-between align-items-center">
+            <h5 class="card-title mb-0">
+                {{ result.job_title }} at {{ result.company_name or 'Unknown' }}
+            </h5>
+            <span class="badge {% if result.percentage >= 75 %}bg-success{% elif result.percentage >= 50 %}bg-warning text-dark{% else %}bg-danger{% endif %} fs-6">
+                {{ result.percentage }}% Match ({{ result.matched_count }}/{{ result.total_count }} skills)
+            </span>
+        </div>
+        {% if result.matched_skills %}
+        <p class="mt-2 mb-1">
+            <strong>Matched:</strong>
+            {% for skill in result.matched_skills %}
+            <span class="badge bg-success">{{ skill }}</span>
+            {% endfor %}
+        </p>
+        {% endif %}
+        {% if result.missing_skills %}
+        <p class="mb-0">
+            <strong>Missing:</strong>
+            {% for skill in result.missing_skills %}
+            <span class="badge bg-secondary">{{ skill }}</span>
+            {% endfor %}
+        </p>
+        {% endif %}
+    </div>
+</div>
+{% endfor %}
+{% elif request.method == 'POST' %}
+<div class="alert alert-info">No matching jobs found. Make sure jobs have requirements listed.</div>
+{% endif %}
+{% endblock %}

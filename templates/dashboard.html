@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row">
+    <div class="col-md-3">
+        <div class="card text-white bg-primary mb-3">
+            <div class="card-body text-center">
+                <h5 class="card-title">Companies</h5>
+                <p class="card-text display-4">{{ company_count }}</p>
+                <a href="/companies" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-success mb-3">
+            <div class="card-body text-center">
+                <h5 class="card-title">Jobs</h5>
+                <p class="card-text display-4">{{ job_count }}</p>
+                <a href="/jobs" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-info mb-3">
+            <div class="card-body text-center">
+                <h5 class="card-title">Applications</h5>
+                <p class="card-text display-4">{{ app_count }}</p>
+                <a href="/applications" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="card text-white bg-warning mb-3">
+            <div class="card-body text-center">
+                <h5 class="card-title">Contacts</h5>
+                <p class="card-text display-4">{{ contact_count }}</p>
+                <a href="/contacts" class="text-white">View All</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% if status_counts %}
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <h5>Applications by Status</h5>
+            </div>
+            <div class="card-body">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Status</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for row in status_counts %}
+                        <tr>
+                            <td>{{ row.status }}</td>
+                            <td>{{ row.count }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Add Application</h1>
+
+<form method="POST" action="/applications/add">
+    <div class="mb-3">
+        <label for="job_id" class="form-label">Job *</label>
+        <select class="form-select" id="job_id" name="job_id" required>
+            <option value="">Select a job</option>
+            {% for job in jobs %}
+            <option value="{{ job.job_id }}">{{ job.job_title }} at {{ job.company_name or 'Unknown' }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="application_date" class="form-label">Application Date *</label>
+        <input type="date" class="form-control" id="application_date" name="application_date" required>
+    </div>
+    <div class="mb-3">
+        <label for="status" class="form-label">Status</label>
+        <select class="form-select" id="status" name="status">
+            <option value="Applied">Applied</option>
+            <option value="Screening">Screening</option>
+            <option value="Interview">Interview</option>
+            <option value="Offer">Offer</option>
+            <option value="Rejected">Rejected</option>
+            <option value="Withdrawn">Withdrawn</option>
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="resume_version" class="form-label">Resume Version</label>
+        <input type="text" class="form-control" id="resume_version" name="resume_version"
+               placeholder="e.g. v2.1">
+    </div>
+    <div class="mb-3 form-check">
+        <input type="checkbox" class="form-check-input" id="cover_letter_sent" name="cover_letter_sent" value="1">
+        <label class="form-check-label" for="cover_letter_sent">Cover Letter Sent</label>
+    </div>
+    <div class="mb-3">
+        <label for="interview_data" class="form-label">Interview Notes</label>
+        <textarea class="form-control" id="interview_data" name="interview_data" rows="3"
+                  placeholder='e.g. {"date": "2025-04-01", "type": "phone", "notes": "went well"}'></textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Add Application</button>
+    <a href="/applications" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

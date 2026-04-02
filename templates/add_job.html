@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Add Job</h1>
+
+<form method="POST" action="/jobs/add">
+    <div class="mb-3">
+        <label for="company_id" class="form-label">Company *</label>
+        <select class="form-select" id="company_id" name="company_id" required>
+            <option value="">Select a company</option>
+            {% for company in companies %}
+            <option value="{{ company.company_id }}">{{ company.company_name }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="job_title" class="form-label">Job Title *</label>
+        <input type="text" class="form-control" id="job_title" name="job_title" required>
+    </div>
+    <div class="mb-3">
+        <label for="job_type" class="form-label">Job Type</label>
+        <select class="form-select" id="job_type" name="job_type">
+            <option value="">Select type</option>
+            <option value="Full-time">Full-time</option>
+            <option value="Part-time">Part-time</option>
+            <option value="Contract">Contract</option>
+            <option value="Internship">Internship</option>
+        </select>
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="salary_min" class="form-label">Salary Min</label>
+            <input type="number" class="form-control" id="salary_min" name="salary_min">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="salary_max" class="form-label">Salary Max</label>
+            <input type="number" class="form-control" id="salary_max" name="salary_max">
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="job_url" class="form-label">Job URL</label>
+        <input type="text" class="form-control" id="job_url" name="job_url">
+    </div>
+    <div class="mb-3">
+        <label for="date_posted" class="form-label">Date Posted</label>
+        <input type="date" class="form-control" id="date_posted" name="date_posted">
+    </div>
+    <div class="mb-3">
+        <label for="requirements" class="form-label">Requirements (comma-separated)</label>
+        <input type="text" class="form-control" id="requirements" name="requirements"
+               placeholder="e.g. Python, SQL, Flask">
+    </div>
+    <button type="submit" class="btn btn-primary">Add Job</button>
+    <a href="/jobs" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}

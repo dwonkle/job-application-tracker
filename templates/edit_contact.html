@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1 class="mb-4">Edit Contact</h1>
+
+<form method="POST" action="/contacts/edit/{{ contact.contact_id }}">
+    <div class="mb-3">
+        <label for="company_id" class="form-label">Company *</label>
+        <select class="form-select" id="company_id" name="company_id" required>
+            <option value="">Select a company</option>
+            {% for company in companies %}
+            <option value="{{ company.company_id }}"
+                    {% if company.company_id == contact.company_id %}selected{% endif %}>
+                {{ company.company_name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label for="contact_name" class="form-label">Contact Name *</label>
+        <input type="text" class="form-control" id="contact_name" name="contact_name"
+               value="{{ contact.contact_name }}" required>
+    </div>
+    <div class="mb-3">
+        <label for="title" class="form-label">Job Title</label>
+        <input type="text" class="form-control" id="title" name="title"
+               value="{{ contact.title or '' }}">
+    </div>
+    <div class="row">
+        <div class="col-md-6 mb-3">
+            <label for="email" class="form-label">Email</label>
+            <input type="email" class="form-control" id="email" name="email"
+                   value="{{ contact.email or '' }}">
+        </div>
+        <div class="col-md-6 mb-3">
+            <label for="phone" class="form-label">Phone</label>
+            <input type="text" class="form-control" id="phone" name="phone"
+                   value="{{ contact.phone or '' }}">
+        </div>
+    </div>
+    <div class="mb-3">
+        <label for="linkedin_url" class="form-label">LinkedIn URL</label>
+        <input type="text" class="form-control" id="linkedin_url" name="linkedin_url"
+               value="{{ contact.linkedin_url or '' }}">
+    </div>
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="notes" name="notes"
+                  rows="3">{{ contact.notes or '' }}</textarea>
+    </div>
+    <button type="submit" class="btn btn-primary">Save Changes</button>
+    <a href="/contacts" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
